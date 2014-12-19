@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -15,11 +16,48 @@
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c63-Ib-Nuw">
+                                <rect key="frame" x="277" y="83" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="startStopScan:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="gky-rA-Oya"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Kwx-hF-qOt">
+                                <rect key="frame" x="16" y="143" width="568" height="376"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MACFINDER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DpK-k0-HmU">
+                                <rect key="frame" x="250" y="28" width="100" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="DpK-k0-HmU" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" symbolic="YES" id="6da-Sf-hYd"/>
+                            <constraint firstItem="c63-Ib-Nuw" firstAttribute="top" secondItem="DpK-k0-HmU" secondAttribute="bottom" constant="34" id="Epe-rc-KRw"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Kwx-hF-qOt" secondAttribute="bottom" constant="81" id="HXE-Aa-JYE"/>
+                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="Kr3-6Y-URj"/>
+                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="centerX" secondItem="c63-Ib-Nuw" secondAttribute="centerX" id="a1D-6W-yPF"/>
+                            <constraint firstItem="DpK-k0-HmU" firstAttribute="centerX" secondItem="c63-Ib-Nuw" secondAttribute="centerX" id="e43-hd-B6S"/>
+                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="h3c-ry-H5a"/>
+                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="top" secondItem="c63-Ib-Nuw" secondAttribute="bottom" constant="30" id="ohH-ZV-Sbk"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="btnScan" destination="c63-Ib-Nuw" id="9L9-XA-Kvn"/>
+                        <outlet property="lblTitle" destination="DpK-k0-HmU" id="SO8-aG-LeP"/>
+                        <outlet property="tableView" destination="Kwx-hF-qOt" id="VaA-0c-eYR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="344" y="426"/>
         </scene>
     </scenes>
 </document>
