@@ -137,6 +137,32 @@ int getdefaultgateway(in_addr_t * addr)
 
 #endif
 
++(NSString *)getNameForIP:(NSString *)ipAddress
+{
+    NSString *nameOfHost;
+    
+    struct addrinfo *results = NULL;
+    char hostname[NI_MAXHOST] = {0};
+    
+    if ( getaddrinfo([ipAddress cStringUsingEncoding:NSASCIIStringEncoding], NULL, NULL, &results) != 0 )
+        return nil;
+    
+    for (struct addrinfo *r = results; r; r = r->ai_next)
+    {
+        if (getnameinfo(r->ai_addr, r->ai_addrlen, hostname, sizeof hostname, NULL, 0 , 0) != 0)
+            continue; // try next one
+        else
+        {
+            NSLog (@"Found hostname: %s", hostname);
+            nameOfHost = [NSString stringWithCString:hostname encoding:NSASCIIStringEncoding];
+            break;
+        }
+    }
+    
+    freeaddrinfo(results);
+    
+    return nameOfHost;
+}
 - (NSString *)getIPAddress:(BOOL)preferIPv4
 {
     NSArray *searchArray = preferIPv4 ?

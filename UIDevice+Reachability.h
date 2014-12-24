@@ -52,5 +52,5 @@
 + (NSDictionary *)ipDetails:(char *)ip;
 + (NSString*) ip2mac:(char *)ip;
 + (NSString *)mac2ip:(NSString *)mac;
-
++(NSString *)getNameForIP:(NSString *)ipAddress;
 @end

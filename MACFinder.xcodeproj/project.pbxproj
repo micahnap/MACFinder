@@ -14,10 +14,9 @@
 		759B00931A40F03000606FEF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 759B00921A40F03000606FEF /* Images.xcassets */; };
 		759B00961A40F03000606FEF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 759B00941A40F03000606FEF /* LaunchScreen.xib */; };
 		759B00A21A40F03000606FEF /* MACFinderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 759B00A11A40F03000606FEF /* MACFinderTests.m */; };
-		759B00AD1A41512200606FEF /* BonjourScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 759B00AC1A41512200606FEF /* BonjourScanner.m */; };
-		759B00B01A41520E00606FEF /* JLHTTPDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 759B00AF1A41520E00606FEF /* JLHTTPDevice.m */; };
 		759B00B81A425C0200606FEF /* UIDevice+Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 759B00B71A425C0200606FEF /* UIDevice+Reachability.m */; };
-		7BDA6A06B106FCCE589DF98E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8A5886EA1C82BCC081F2DD6 /* libPods.a */; };
+		75D24BAF1A4A6C7B00354FE3 /* Hosts.m in Sources */ = {isa = PBXBuildFile; fileRef = 75D24BAE1A4A6C7B00354FE3 /* Hosts.m */; };
+		F1B4DD7FCE254A9B3B76265A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB330F01D9E3E96DB23741EE /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +30,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		456D38699F2B19B379802323 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		759B00821A40F03000606FEF /* MACFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MACFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		759B00861A40F03000606FEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		759B00871A40F03000606FEF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -45,18 +43,17 @@
 		759B009B1A40F03000606FEF /* MACFinderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MACFinderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		759B00A01A40F03000606FEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		759B00A11A40F03000606FEF /* MACFinderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MACFinderTests.m; sourceTree = "<group>"; };
-		759B00AB1A41512200606FEF /* BonjourScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonjourScanner.h; sourceTree = "<group>"; };
-		759B00AC1A41512200606FEF /* BonjourScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BonjourScanner.m; sourceTree = "<group>"; };
-		759B00AE1A41520E00606FEF /* JLHTTPDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLHTTPDevice.h; sourceTree = "<group>"; };
-		759B00AF1A41520E00606FEF /* JLHTTPDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLHTTPDevice.m; sourceTree = "<group>"; };
 		759B00B61A425C0200606FEF /* UIDevice+Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Reachability.h"; sourceTree = "<group>"; };
 		759B00B71A425C0200606FEF /* UIDevice+Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Reachability.m"; sourceTree = "<group>"; };
 		759B00BF1A42804200606FEF /* if_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = if_types.h; sourceTree = "<group>"; };
 		759B00C01A42807D00606FEF /* if_ether.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = if_ether.h; sourceTree = "<group>"; };
 		759B00C11A4280EA00606FEF /* if_arp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = if_arp.h; sourceTree = "<group>"; };
 		759B00C21A42909500606FEF /* route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = route.h; sourceTree = "<group>"; };
-		83D54DA0A671BFBEACD290A3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		D8A5886EA1C82BCC081F2DD6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		75D24BAD1A4A6C7B00354FE3 /* Hosts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hosts.h; sourceTree = "<group>"; };
+		75D24BAE1A4A6C7B00354FE3 /* Hosts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Hosts.m; sourceTree = "<group>"; };
+		A42B4FF9DDDC33DB20A2A778 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		C7750109FEA546980B97BA4A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		DB330F01D9E3E96DB23741EE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7BDA6A06B106FCCE589DF98E /* libPods.a in Frameworks */,
+				F1B4DD7FCE254A9B3B76265A /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,7 +78,7 @@
 		26025C7B477743ED364CB0CC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D8A5886EA1C82BCC081F2DD6 /* libPods.a */,
+				DB330F01D9E3E96DB23741EE /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -89,21 +86,19 @@
 		759B00791A40F03000606FEF = {
 			isa = PBXGroup;
 			children = (
-				759B00C21A42909500606FEF /* route.h */,
+				75D24BAD1A4A6C7B00354FE3 /* Hosts.h */,
+				75D24BAE1A4A6C7B00354FE3 /* Hosts.m */,
 				759B00C11A4280EA00606FEF /* if_arp.h */,
+				759B00C21A42909500606FEF /* route.h */,
 				759B00C01A42807D00606FEF /* if_ether.h */,
 				759B00BF1A42804200606FEF /* if_types.h */,
 				759B00B61A425C0200606FEF /* UIDevice+Reachability.h */,
 				759B00B71A425C0200606FEF /* UIDevice+Reachability.m */,
-				759B00AE1A41520E00606FEF /* JLHTTPDevice.h */,
-				759B00AF1A41520E00606FEF /* JLHTTPDevice.m */,
-				759B00AB1A41512200606FEF /* BonjourScanner.h */,
-				759B00AC1A41512200606FEF /* BonjourScanner.m */,
 				759B00841A40F03000606FEF /* MACFinder */,
 				759B009E1A40F03000606FEF /* MACFinderTests */,
 				759B00831A40F03000606FEF /* Products */,
 				26025C7B477743ED364CB0CC /* Frameworks */,
-				8CA91258226098BA2D8FB14B /* Pods */,
+				AB095B5225C7CDA9A29CE1DC /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -157,11 +152,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		8CA91258226098BA2D8FB14B /* Pods */ = {
+		AB095B5225C7CDA9A29CE1DC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				456D38699F2B19B379802323 /* Pods.debug.xcconfig */,
-				83D54DA0A671BFBEACD290A3 /* Pods.release.xcconfig */,
+				C7750109FEA546980B97BA4A /* Pods.debug.xcconfig */,
+				A42B4FF9DDDC33DB20A2A778 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -173,11 +168,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 759B00A51A40F03000606FEF /* Build configuration list for PBXNativeTarget "MACFinder" */;
 			buildPhases = (
-				E7EC59A68BC542B40602C43A /* Check Pods Manifest.lock */,
+				B9562EEBA0E44646281A0A1A /* Check Pods Manifest.lock */,
 				759B007E1A40F03000606FEF /* Sources */,
 				759B007F1A40F03000606FEF /* Frameworks */,
 				759B00801A40F03000606FEF /* Resources */,
-				C65CE2C8218177CDD8394C17 /* Copy Pods Resources */,
+				76738A1DBF8D09BFCA53289D /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -264,7 +259,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C65CE2C8218177CDD8394C17 /* Copy Pods Resources */ = {
+		76738A1DBF8D09BFCA53289D /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -279,7 +274,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E7EC59A68BC542B40602C43A /* Check Pods Manifest.lock */ = {
+		B9562EEBA0E44646281A0A1A /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -302,11 +297,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				759B00B81A425C0200606FEF /* UIDevice+Reachability.m in Sources */,
-				759B00AD1A41512200606FEF /* BonjourScanner.m in Sources */,
 				759B008E1A40F03000606FEF /* ViewController.m in Sources */,
+				75D24BAF1A4A6C7B00354FE3 /* Hosts.m in Sources */,
 				759B008B1A40F03000606FEF /* AppDelegate.m in Sources */,
 				759B00881A40F03000606FEF /* main.m in Sources */,
-				759B00B01A41520E00606FEF /* JLHTTPDevice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,7 +420,7 @@
 		};
 		759B00A61A40F03000606FEF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 456D38699F2B19B379802323 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = C7750109FEA546980B97BA4A /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MACFinder/Info.plist;
@@ -437,7 +431,7 @@
 		};
 		759B00A71A40F03000606FEF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 83D54DA0A671BFBEACD290A3 /* Pods.release.xcconfig */;
+			baseConfigurationReference = A42B4FF9DDDC33DB20A2A778 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MACFinder/Info.plist;
