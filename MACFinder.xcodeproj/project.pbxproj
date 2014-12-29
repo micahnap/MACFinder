@@ -16,6 +16,8 @@
 		759B00A21A40F03000606FEF /* MACFinderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 759B00A11A40F03000606FEF /* MACFinderTests.m */; };
 		759B00B81A425C0200606FEF /* UIDevice+Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 759B00B71A425C0200606FEF /* UIDevice+Reachability.m */; };
 		75D24BAF1A4A6C7B00354FE3 /* Hosts.m in Sources */ = {isa = PBXBuildFile; fileRef = 75D24BAE1A4A6C7B00354FE3 /* Hosts.m */; };
+		75D24BB31A51059B00354FE3 /* HostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75D24BB11A51059B00354FE3 /* HostCell.m */; };
+		75D24BB41A51059B00354FE3 /* HostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D24BB21A51059B00354FE3 /* HostCell.xib */; };
 		F1B4DD7FCE254A9B3B76265A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB330F01D9E3E96DB23741EE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +53,9 @@
 		759B00C21A42909500606FEF /* route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = route.h; sourceTree = "<group>"; };
 		75D24BAD1A4A6C7B00354FE3 /* Hosts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hosts.h; sourceTree = "<group>"; };
 		75D24BAE1A4A6C7B00354FE3 /* Hosts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Hosts.m; sourceTree = "<group>"; };
+		75D24BB01A51059B00354FE3 /* HostCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HostCell.h; sourceTree = "<group>"; };
+		75D24BB11A51059B00354FE3 /* HostCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HostCell.m; sourceTree = "<group>"; };
+		75D24BB21A51059B00354FE3 /* HostCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HostCell.xib; sourceTree = "<group>"; };
 		A42B4FF9DDDC33DB20A2A778 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C7750109FEA546980B97BA4A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DB330F01D9E3E96DB23741EE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,6 +91,9 @@
 		759B00791A40F03000606FEF = {
 			isa = PBXGroup;
 			children = (
+				75D24BB01A51059B00354FE3 /* HostCell.h */,
+				75D24BB11A51059B00354FE3 /* HostCell.m */,
+				75D24BB21A51059B00354FE3 /* HostCell.xib */,
 				75D24BAD1A4A6C7B00354FE3 /* Hosts.h */,
 				75D24BAE1A4A6C7B00354FE3 /* Hosts.m */,
 				759B00C11A4280EA00606FEF /* if_arp.h */,
@@ -246,6 +254,7 @@
 				759B00911A40F03000606FEF /* Main.storyboard in Resources */,
 				759B00961A40F03000606FEF /* LaunchScreen.xib in Resources */,
 				759B00931A40F03000606FEF /* Images.xcassets in Resources */,
+				75D24BB41A51059B00354FE3 /* HostCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +310,7 @@
 				75D24BAF1A4A6C7B00354FE3 /* Hosts.m in Sources */,
 				759B008B1A40F03000606FEF /* AppDelegate.m in Sources */,
 				759B00881A40F03000606FEF /* main.m in Sources */,
+				75D24BB31A51059B00354FE3 /* HostCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

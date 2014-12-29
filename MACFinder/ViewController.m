@@ -12,10 +12,12 @@
 #import <GBToolbox.h>
 #import "Hosts.h"
 #import <AFNetworking/AFNetworking.h>
+#import "HostCell.h"
 
 #define BROADCAST_ADDRESS @"255.255.255.255"
+#define VENDORURL @"https://www.macvendorlookup.com/api/v2/"
 
-@interface ViewController () <GBPingDelegate>
+@interface ViewController () <GBPingDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *btnScan;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *lblTitle;
@@ -29,7 +31,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self.tableView registerClass:[HostCell class] forCellReuseIdentifier:@"Cell"];
+
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -38,15 +41,16 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)startStopScan:(id)sender
+- (IBAction)startStopScan:(UIButton *)sender
 {
+    //sender.selected = !sender.selected;
     if (!self.hosts) {
         self.hosts = [NSMutableArray new];
     }
     
     [self.hosts removeAllObjects];
     
-    self.ping = [[GBPing alloc] init];
+    self.ping = [GBPing new];
     self.ping.host = BROADCAST_ADDRESS;
     self.ping.delegate = self;
     self.ping.timeout = 1;
@@ -61,13 +65,16 @@
             [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO withBlock:^{
                 
                 self.hosts = [[self arrayWithRemovedDuplicatesFromArray:[self.hosts copy]] mutableCopy];
-                [self populateArrayWithMACAndVendorInfo];
+                [self populateArrayWithMACAndVendorInfoWithCompletion:^{
+                    [self.tableView reloadData];
+                }];
+                
                 [_ping stop];
                 _ping = nil;
             }];
         }
         else {
-            NSLog(@"failed to start");
+            l(@"failed to start");
         }
     }];
 }
@@ -88,57 +95,83 @@
     return yourHistoryArray;
 }
 
-- (void)populateArrayWithMACAndVendorInfo {
+- (void)populateArrayWithMACAndVendorInfoWithCompletion:(void(^)(void))completionBlock{
+    
     [self.hosts enumerateObjectsUsingBlock:^(Hosts *obj, NSUInteger idx, BOOL *stop){
         NSString *macAddress = [UIDevice ip2mac:(char *)[obj.ipAddress cStringUsingEncoding:NSUTF8StringEncoding]];
-        l(@"test: %@", macAddress);
+        obj.macAddress = macAddress ? macAddress : @"";
+        
+        if (![macAddress isEqualToString:@""]) {
+            NSString *macURLAppend = [NSString stringWithFormat:@"%@%@", VENDORURL, obj.macAddress];
+            
+            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+            manager.responseSerializer = [AFJSONResponseSerializer serializer];
+            [manager GET:macURLAppend
+              parameters:nil
+                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                     
+                     NSArray *responseDict = (NSArray *)responseObject;
+                     NSDictionary *dict = responseDict[0];
+                     obj.manufacturer = dict[@"company"];
+                     
+                     if (idx == [self.hosts count] -1) {
+                         completionBlock();
+                     }
+                 }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                     obj.manufacturer = @"";
+                 }];
+        }
     }];
 }
 
-//- (NSData *)dataFromHexString:(NSString *)string {
-//    string = [string lowercaseString];
-//    NSMutableData *data= [NSMutableData new];
-//    unsigned char whole_byte;
-//    char byte_chars[3] = {'\0','\0','\0'};
-//    int i = 0;
-//    NSUInteger length = string.length;
-//    while (i < length-1) {
-//        char c = [string characterAtIndex:i++];
-//        if (c < '0' || (c > '9' && c < 'a') || c > 'f')
-//            continue;
-//        byte_chars[0] = c;
-//        byte_chars[1] = [string characterAtIndex:i++];
-//        whole_byte = strtol(byte_chars, NULL, 16);
-//        [data appendBytes:&whole_byte length:1];
-//    }
-//    
-//    return data;
-//}
-//
-//- (NSString *)hexStringFromData:(NSData *)data
-//{
-//    const unsigned char *dataBuffer = (const unsigned char *)[data bytes];
-//    
-//    if (!dataBuffer)
-//        return [NSString string];
-//    
-//    NSUInteger          dataLength  = [data length];
-//    NSMutableString     *hexString  = [NSMutableString stringWithCapacity:(dataLength * 2)];
-//    
-//    for (int i = 0; i < dataLength; ++i)
-//        [hexString appendString:[NSString stringWithFormat:@"%02lx", (unsigned long)dataBuffer[i]]];
-//    
-//    return [NSString stringWithString:hexString];
-//}
+#pragma mark - TableView DataSource
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 69;
+}
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.hosts ? [self.hosts count] : 0;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    
+    HostCell *cell = (HostCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    Hosts *host = self.hosts[indexPath.row];
+    
+    NSArray* topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"HostCell" owner:self options:nil];
+    
+    for (id currentObject in topLevelObjects)
+    {
+        if ([currentObject isKindOfClass:[UITableViewCell class]])
+        {
+            cell = (HostCell *)currentObject;
+            break;
+        }
+    }
+
+    cell.hostMAC.text = host.macAddress;
+    cell.hostName.text = host.ipAddress;
+    cell.hostVendor.text = host.manufacturer;
+    
+    return cell;
+}
+
+#pragma mark - GBPing delegates
 -(void)ping:(GBPing *)pinger didReceiveReplyWithSummary:(GBPingSummary *)summary {
     //l(@"REPLY>  %@", summary);
-    
-//    l(@"macAddress: %@ for ip: %@", macAddress, summary.host);
-//    NSLog(@"hostname: %@", [UIDevice getNameForIP:summary.host]);
+
     Hosts *host = [Hosts new];
     host.ipAddress = summary.host;
-    
+
     if (![host.ipAddress containsSubstring:@"255"]) {
         [self.hosts addObject:host];
     }
