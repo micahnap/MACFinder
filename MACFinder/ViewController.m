@@ -24,6 +24,7 @@
 @property (strong, nonatomic) Hosts *device;
 @property (strong, nonatomic) NSMutableArray *hosts;
 @property (strong, nonatomic) GBPing *ping;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -43,15 +44,30 @@
 
 - (IBAction)startStopScan:(UIButton *)sender
 {
-    //sender.selected = !sender.selected;
+    sender.selected = !sender.selected;
+    
+    if (sender.selected) {
+        [self.activityIndicator startAnimating];
+        [self.hosts removeAllObjects];
+        [self pingIPAdress:BROADCAST_ADDRESS];
+    }
+    else{
+        [self.activityIndicator stopAnimating];
+        [_ping stop];
+        _ping = nil;
+    }
+
+    //[self.btnScan setTitle:@"Stop Scanning" forState:UIControlStateSelected];
+}
+
+-(void)pingIPAdress:(NSString *)ipAddress
+{
     if (!self.hosts) {
         self.hosts = [NSMutableArray new];
     }
     
-    [self.hosts removeAllObjects];
-    
     self.ping = [GBPing new];
-    self.ping.host = BROADCAST_ADDRESS;
+    self.ping.host = ipAddress;
     self.ping.delegate = self;
     self.ping.timeout = 1;
     self.ping.pingPeriod = 0.9;
@@ -64,7 +80,7 @@
             //stop it after 5 seconds
             [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO withBlock:^{
                 
-                self.hosts = [[self arrayWithRemovedDuplicatesFromArray:[self.hosts copy]] mutableCopy];
+                [self removedDuplicatesFromHostArray];
                 [self populateArrayWithMACAndVendorInfoWithCompletion:^{
                     [self.tableView reloadData];
                 }];
@@ -74,12 +90,14 @@
             }];
         }
         else {
-            l(@"failed to start");
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unable to ping" message:@"Ping service failed to start. Please try again." delegate:nil cancelButtonTitle:@"" otherButtonTitles:nil, nil];
+            [alertView show];
         }
     }];
 }
 
--(NSArray *)arrayWithRemovedDuplicatesFromArray:(NSArray *)duplicateArray
+-(void)removedDuplicatesFromHostArray
 {
     NSMutableSet *seenObjects = [NSMutableSet set];
     NSPredicate *dupPred = [NSPredicate predicateWithBlock: ^BOOL(id obj, NSDictionary *bind) {
@@ -91,13 +109,14 @@
         return !seen;
     }];
     
-    NSArray *yourHistoryArray = [duplicateArray filteredArrayUsingPredicate:dupPred];
-    return yourHistoryArray;
+    NSArray *newArray = [self.hosts filteredArrayUsingPredicate:dupPred];
+    self.hosts = [newArray mutableCopy];
 }
 
 - (void)populateArrayWithMACAndVendorInfoWithCompletion:(void(^)(void))completionBlock{
     
     [self.hosts enumerateObjectsUsingBlock:^(Hosts *obj, NSUInteger idx, BOOL *stop){
+        
         NSString *macAddress = [UIDevice ip2mac:(char *)[obj.ipAddress cStringUsingEncoding:NSUTF8StringEncoding]];
         obj.macAddress = macAddress ? macAddress : @"";
         
@@ -119,6 +138,10 @@
                      }
                  }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      obj.manufacturer = @"";
+                     
+                     if (idx == [self.hosts count] -1) {
+                         completionBlock();
+                     }
                  }];
         }
     }];

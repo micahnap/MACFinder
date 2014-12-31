@@ -18,10 +18,11 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c63-Ib-Nuw">
-                                <rect key="frame" x="277" y="83" width="46" height="30"/>
-                                <state key="normal" title="Button">
+                                <rect key="frame" x="249" y="57" width="102" height="30"/>
+                                <state key="normal" title="Start Scanning">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <state key="selected" title="Stop Scanning"/>
                                 <connections>
                                     <action selector="startStopScan:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="gky-rA-Oya"/>
                                 </connections>
@@ -40,20 +41,27 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="cmK-7c-nK6">
+                                <rect key="frame" x="282" y="95" width="37" height="37"/>
+                                <color key="color" red="0.039215686270000001" green="0.37254901959999998" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="DpK-k0-HmU" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" symbolic="YES" id="6da-Sf-hYd"/>
-                            <constraint firstItem="c63-Ib-Nuw" firstAttribute="top" secondItem="DpK-k0-HmU" secondAttribute="bottom" constant="34" id="Epe-rc-KRw"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Kwx-hF-qOt" secondAttribute="bottom" constant="81" id="HXE-Aa-JYE"/>
-                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="Kr3-6Y-URj"/>
-                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="centerX" secondItem="c63-Ib-Nuw" secondAttribute="centerX" id="a1D-6W-yPF"/>
-                            <constraint firstItem="DpK-k0-HmU" firstAttribute="centerX" secondItem="c63-Ib-Nuw" secondAttribute="centerX" id="e43-hd-B6S"/>
-                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="h3c-ry-H5a"/>
-                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="top" secondItem="c63-Ib-Nuw" secondAttribute="bottom" constant="30" id="ohH-ZV-Sbk"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Kwx-hF-qOt" secondAttribute="bottom" constant="81" id="3QI-GX-NeM"/>
+                            <constraint firstItem="cmK-7c-nK6" firstAttribute="centerX" secondItem="Kwx-hF-qOt" secondAttribute="centerX" id="5aj-a6-oeL"/>
+                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="top" secondItem="cmK-7c-nK6" secondAttribute="bottom" constant="11" id="H5N-P2-gFI"/>
+                            <constraint firstItem="c63-Ib-Nuw" firstAttribute="centerX" secondItem="DpK-k0-HmU" secondAttribute="centerX" id="b3Q-pu-cAb"/>
+                            <constraint firstItem="c63-Ib-Nuw" firstAttribute="top" secondItem="DpK-k0-HmU" secondAttribute="bottom" constant="8" symbolic="YES" id="kBx-nc-L7E"/>
+                            <constraint firstItem="DpK-k0-HmU" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" symbolic="YES" id="kPl-e2-KhS"/>
+                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="mEM-f3-1LA"/>
+                            <constraint firstItem="cmK-7c-nK6" firstAttribute="top" secondItem="c63-Ib-Nuw" secondAttribute="bottom" constant="8" symbolic="YES" id="tHP-D1-5H8"/>
+                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="vOv-A4-HI2"/>
+                            <constraint firstItem="cmK-7c-nK6" firstAttribute="centerX" secondItem="c63-Ib-Nuw" secondAttribute="centerX" id="ys9-6D-VFa"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="cmK-7c-nK6" id="NhE-mn-DTo"/>
                         <outlet property="btnScan" destination="c63-Ib-Nuw" id="9L9-XA-Kvn"/>
                         <outlet property="lblTitle" destination="DpK-k0-HmU" id="SO8-aG-LeP"/>
                         <outlet property="tableView" destination="Kwx-hF-qOt" id="VaA-0c-eYR"/>
