@@ -33,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.tableView registerClass:[HostCell class] forCellReuseIdentifier:@"Cell"];
-
+    
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -56,8 +56,6 @@
         [_ping stop];
         _ping = nil;
     }
-
-    //[self.btnScan setTitle:@"Stop Scanning" forState:UIControlStateSelected];
 }
 
 -(void)pingIPAdress:(NSString *)ipAddress
@@ -83,10 +81,12 @@
                 [self removedDuplicatesFromHostArray];
                 [self populateArrayWithMACAndVendorInfoWithCompletion:^{
                     [self.tableView reloadData];
+                    [self startStopScan:self.btnScan];
+                    l(@"COMPLETE??");
                 }];
-                
                 [_ping stop];
                 _ping = nil;
+                
             }];
         }
         else {
@@ -133,6 +133,7 @@
                      NSDictionary *dict = responseDict[0];
                      obj.manufacturer = dict[@"company"];
                      
+                     l(@"IDX: %lu and count: %lu", (unsigned long)idx, (unsigned long)[self.hosts count]);
                      if (idx == [self.hosts count] -1) {
                          completionBlock();
                      }
@@ -145,6 +146,28 @@
                  }];
         }
     }];
+}
+
+
+- (void)getVendorInfoForMAC:(NSString *)macAddress completionBlock:(void (^)(BOOL succeeded, NSString *vendor))completionBlock
+{
+    NSString *macURLAppend = [NSString stringWithFormat:@"%@%@", VENDORURL, macAddress];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:macURLAppend]];
+    
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                               if ( !error )
+                               {
+                                   NSArray *responseDict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+                                   NSDictionary *dict = responseDict[0];
+                                   NSString *vendor = dict[@"company"];
+
+                                   completionBlock(YES,vendor);
+                               } else{
+                                   completionBlock(NO,nil);
+                               }
+                           }];
 }
 
 #pragma mark - TableView DataSource
@@ -180,17 +203,35 @@
             break;
         }
     }
-
+    
+    if (host.manufacturer)
+    {
+        cell.hostVendor.text = host.manufacturer;
+    }
+    
+    else
+    {
+        // download the image asynchronously
+        [self getVendorInfoForMAC:host.macAddress completionBlock:^(BOOL succeeded, NSString *vendor) {
+            if (succeeded)
+            {
+                // cache the image for use later (when scrolling up)
+                cell.hostVendor.text = vendor;
+            }
+        }];
+    }
+    
+    cell.hostVendor.text = host.manufacturer;
     cell.hostMAC.text = host.macAddress;
     cell.hostName.text = host.ipAddress;
-    cell.hostVendor.text = host.manufacturer;
+    
     
     return cell;
 }
 
 #pragma mark - GBPing delegates
 -(void)ping:(GBPing *)pinger didReceiveReplyWithSummary:(GBPingSummary *)summary {
-    //l(@"REPLY>  %@", summary);
+    l(@"REPLY>  %@", summary);
 
     Hosts *host = [Hosts new];
     host.ipAddress = summary.host;
