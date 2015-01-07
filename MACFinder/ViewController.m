@@ -23,17 +23,19 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblTitle;
 @property (strong, nonatomic) Hosts *device;
 @property (strong, nonatomic) NSMutableArray *hosts;
+@property (strong, nonatomic) NSMutableArray *deadHosts;
 @property (strong, nonatomic) GBPing *ping;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UILabel *lblFound;
 
 @end
 
 @implementation ViewController
+bool isPingingIPs;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.tableView registerClass:[HostCell class] forCellReuseIdentifier:@"Cell"];
-    
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -49,55 +51,57 @@
     if (sender.selected) {
         [self.activityIndicator startAnimating];
         [self.hosts removeAllObjects];
-        [self pingIPAdress:BROADCAST_ADDRESS];
+        GBPing *pinger;
+        [self pingIPAdress:BROADCAST_ADDRESS forSeconds:5 withPinger:pinger];
     }
     else{
         [self.activityIndicator stopAnimating];
-        [_ping stop];
-        _ping = nil;
     }
 }
 
--(void)pingIPAdress:(NSString *)ipAddress
+-(void)pingIPAdress:(NSString *)ipAddress forSeconds:(int)secondsToPing withPinger:(GBPing *)pinger
 {
     if (!self.hosts) {
         self.hosts = [NSMutableArray new];
     }
     
-    self.ping = [GBPing new];
-    self.ping.host = ipAddress;
-    self.ping.delegate = self;
-    self.ping.timeout = 1;
-    self.ping.pingPeriod = 0.9;
+    if (!self.deadHosts) {
+        self.deadHosts = [NSMutableArray new];
+    }
     
-    [self.ping setupWithBlock:^(BOOL success, NSError *error) { //necessary to resolve hostname
+    pinger = [[GBPing alloc] init];
+    pinger.host = ipAddress;
+    pinger.delegate = self;
+    pinger.timeout = 1.0;
+    pinger.pingPeriod = 0.9;
+    
+    [pinger setupWithBlock:^(BOOL success, NSError *error) { //necessary to resolve hostname
         if (success) {
             //start pinging
-            [self.ping startPinging];
+            [pinger startPinging];
             
             //stop it after 5 seconds
             [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO withBlock:^{
-                
-                [self removedDuplicatesFromHostArray];
-                [self populateArrayWithMACAndVendorInfoWithCompletion:^{
-                    [self.tableView reloadData];
-                    [self startStopScan:self.btnScan];
-                    l(@"COMPLETE??");
-                }];
-                [_ping stop];
-                _ping = nil;
-                
+                [self removedDuplicatesFromHostArrays];
+                l(@"hosts: %@", self.hosts);
+                l(@"dead hosts: %@", self.deadHosts);
+                [pinger stop];
+                if ([self.deadHosts count] > 0) {
+                    [self pingDeadHosts];
+                    [self.activityIndicator stopAnimating];
+                    self.btnScan.selected = FALSE;
+                }
+                self.lblFound.hidden = false;
+                self.lblFound.text = [NSString stringWithFormat:@"Found %lu devices", (unsigned long)[self.hosts count]];
+                [self.tableView reloadData];
             }];
         }
         else {
-            
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unable to ping" message:@"Ping service failed to start. Please try again." delegate:nil cancelButtonTitle:@"" otherButtonTitles:nil, nil];
-            [alertView show];
+            NSLog(@"failed to start");
         }
-    }];
-}
+    }];}
 
--(void)removedDuplicatesFromHostArray
+-(void)removedDuplicatesFromHostArrays
 {
     NSMutableSet *seenObjects = [NSMutableSet set];
     NSPredicate *dupPred = [NSPredicate predicateWithBlock: ^BOOL(id obj, NSDictionary *bind) {
@@ -111,42 +115,44 @@
     
     NSArray *newArray = [self.hosts filteredArrayUsingPredicate:dupPred];
     self.hosts = [newArray mutableCopy];
+    newArray = [self.deadHosts filteredArrayUsingPredicate:dupPred];
+    self.deadHosts = [newArray mutableCopy];
 }
 
-- (void)populateArrayWithMACAndVendorInfoWithCompletion:(void(^)(void))completionBlock{
-    
-    [self.hosts enumerateObjectsUsingBlock:^(Hosts *obj, NSUInteger idx, BOOL *stop){
-        
-        NSString *macAddress = [UIDevice ip2mac:(char *)[obj.ipAddress cStringUsingEncoding:NSUTF8StringEncoding]];
-        obj.macAddress = macAddress ? macAddress : @"";
-        
-        if (![macAddress isEqualToString:@""]) {
-            NSString *macURLAppend = [NSString stringWithFormat:@"%@%@", VENDORURL, obj.macAddress];
-            
-            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-            manager.responseSerializer = [AFJSONResponseSerializer serializer];
-            [manager GET:macURLAppend
-              parameters:nil
-                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                     
-                     NSArray *responseDict = (NSArray *)responseObject;
-                     NSDictionary *dict = responseDict[0];
-                     obj.manufacturer = dict[@"company"];
-                     
-                     l(@"IDX: %lu and count: %lu", (unsigned long)idx, (unsigned long)[self.hosts count]);
-                     if (idx == [self.hosts count] -1) {
-                         completionBlock();
-                     }
-                 }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                     obj.manufacturer = @"";
-                     
-                     if (idx == [self.hosts count] -1) {
-                         completionBlock();
-                     }
-                 }];
-        }
-    }];
-}
+//- (void)populateArrayWithMACAndVendorInfoWithCompletion:(void(^)(void))completionBlock{
+//    
+//    [self.hosts enumerateObjectsUsingBlock:^(Hosts *obj, NSUInteger idx, BOOL *stop){
+//        
+//        NSString *macAddress = [UIDevice ip2mac:(char *)[obj.ipAddress cStringUsingEncoding:NSUTF8StringEncoding]];
+//        obj.macAddress = macAddress ? macAddress : @"";
+//        
+//        if (![macAddress isEqualToString:@""]) {
+//            NSString *macURLAppend = [NSString stringWithFormat:@"%@%@", VENDORURL, obj.macAddress];
+//            
+//            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//            manager.responseSerializer = [AFJSONResponseSerializer serializer];
+//            [manager GET:macURLAppend
+//              parameters:nil
+//                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//                     
+//                     NSArray *responseDict = (NSArray *)responseObject;
+//                     NSDictionary *dict = responseDict[0];
+//                     obj.manufacturer = dict[@"company"];
+//                     
+//                     l(@"IDX: %lu and count: %lu", (unsigned long)idx, (unsigned long)[self.hosts count]);
+//                     if (idx == [self.hosts count] -1) {
+//                         completionBlock();
+//                     }
+//                 }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//                     obj.manufacturer = @"";
+//                     
+//                     if (idx == [self.hosts count] -1) {
+//                         completionBlock();
+//                     }
+//                 }];
+//        }
+//    }];
+//}
 
 
 - (void)getVendorInfoForMAC:(NSString *)macAddress completionBlock:(void (^)(BOOL succeeded, NSString *vendor))completionBlock
@@ -168,6 +174,18 @@
                                    completionBlock(NO,nil);
                                }
                            }];
+}
+
+-(void)pingDeadHosts
+{
+    [self.deadHosts enumerateObjectsUsingBlock:^(Hosts *obj, NSUInteger idx, BOOL *stop){
+ 
+        GBPing *pinger;
+
+        [self pingIPAdress:obj.ipAddress forSeconds:5 withPinger:pinger];
+    }];
+    
+    [self.deadHosts removeAllObjects];
 }
 
 #pragma mark - TableView DataSource
@@ -204,27 +222,27 @@
         }
     }
     
-    if (host.manufacturer)
-    {
+    if (host.manufacturer) {
         cell.hostVendor.text = host.manufacturer;
     }
     
-    else
-    {
-        // download the image asynchronously
+    else{
         [self getVendorInfoForMAC:host.macAddress completionBlock:^(BOOL succeeded, NSString *vendor) {
-            if (succeeded)
-            {
-                // cache the image for use later (when scrolling up)
+            
+            if (succeeded) {
                 cell.hostVendor.text = vendor;
+                host.manufacturer =  vendor;
             }
+            else
+            {
+                cell.hostVendor.text = @"N/A";
+            }
+            
         }];
     }
-    
-    cell.hostVendor.text = host.manufacturer;
+
     cell.hostMAC.text = host.macAddress;
     cell.hostName.text = host.ipAddress;
-    
     
     return cell;
 }
@@ -232,12 +250,22 @@
 #pragma mark - GBPing delegates
 -(void)ping:(GBPing *)pinger didReceiveReplyWithSummary:(GBPingSummary *)summary {
     l(@"REPLY>  %@", summary);
-
+    
     Hosts *host = [Hosts new];
     host.ipAddress = summary.host;
-
-    if (![host.ipAddress containsSubstring:@"255"]) {
-        [self.hosts addObject:host];
+    NSString *macAddress = [UIDevice ip2mac:(char *)[summary.host cStringUsingEncoding:NSUTF8StringEncoding]];
+    
+    if (macAddress) {
+        if (![host.ipAddress containsSubstring:@"255"]) {
+            host.macAddress = macAddress;
+            [self.hosts addObject:host];
+        }
+    }
+    
+    else{
+        if (![host.ipAddress containsSubstring:@"255"]) {
+            [self.deadHosts addObject:host];
+        }
     }
 }
 

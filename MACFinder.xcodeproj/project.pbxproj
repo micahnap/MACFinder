@@ -91,17 +91,10 @@
 		759B00791A40F03000606FEF = {
 			isa = PBXGroup;
 			children = (
-				75D24BB01A51059B00354FE3 /* HostCell.h */,
-				75D24BB11A51059B00354FE3 /* HostCell.m */,
-				75D24BB21A51059B00354FE3 /* HostCell.xib */,
-				75D24BAD1A4A6C7B00354FE3 /* Hosts.h */,
-				75D24BAE1A4A6C7B00354FE3 /* Hosts.m */,
-				759B00C11A4280EA00606FEF /* if_arp.h */,
-				759B00C21A42909500606FEF /* route.h */,
-				759B00C01A42807D00606FEF /* if_ether.h */,
-				759B00BF1A42804200606FEF /* if_types.h */,
 				759B00B61A425C0200606FEF /* UIDevice+Reachability.h */,
 				759B00B71A425C0200606FEF /* UIDevice+Reachability.m */,
+				75D24BB61A5D00D000354FE3 /* Host Make and Model */,
+				75D24BB51A5CFFED00354FE3 /* C helpers */,
 				759B00841A40F03000606FEF /* MACFinder */,
 				759B009E1A40F03000606FEF /* MACFinderTests */,
 				759B00831A40F03000606FEF /* Products */,
@@ -158,6 +151,29 @@
 				759B00A01A40F03000606FEF /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		75D24BB51A5CFFED00354FE3 /* C helpers */ = {
+			isa = PBXGroup;
+			children = (
+				759B00C11A4280EA00606FEF /* if_arp.h */,
+				759B00C21A42909500606FEF /* route.h */,
+				759B00C01A42807D00606FEF /* if_ether.h */,
+				759B00BF1A42804200606FEF /* if_types.h */,
+			);
+			name = "C helpers";
+			sourceTree = "<group>";
+		};
+		75D24BB61A5D00D000354FE3 /* Host Make and Model */ = {
+			isa = PBXGroup;
+			children = (
+				75D24BB01A51059B00354FE3 /* HostCell.h */,
+				75D24BB11A51059B00354FE3 /* HostCell.m */,
+				75D24BB21A51059B00354FE3 /* HostCell.xib */,
+				75D24BAD1A4A6C7B00354FE3 /* Hosts.h */,
+				75D24BAE1A4A6C7B00354FE3 /* Hosts.m */,
+			);
+			name = "Host Make and Model";
 			sourceTree = "<group>";
 		};
 		AB095B5225C7CDA9A29CE1DC /* Pods */ = {

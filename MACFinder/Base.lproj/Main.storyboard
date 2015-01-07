@@ -28,7 +28,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Kwx-hF-qOt">
-                                <rect key="frame" x="16" y="143" width="568" height="376"/>
+                                <rect key="frame" x="16" y="143" width="568" height="437"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="vXZ-lx-hvc" id="VdU-Lk-ROM"/>
@@ -45,24 +45,33 @@
                                 <rect key="frame" x="282" y="95" width="37" height="37"/>
                                 <color key="color" red="0.039215686270000001" green="0.37254901959999998" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Found 9999 devices" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ij0-6K-IHl">
+                                <rect key="frame" x="437" y="111" width="147" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Kwx-hF-qOt" secondAttribute="bottom" constant="81" id="3QI-GX-NeM"/>
-                            <constraint firstItem="cmK-7c-nK6" firstAttribute="centerX" secondItem="Kwx-hF-qOt" secondAttribute="centerX" id="5aj-a6-oeL"/>
-                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="top" secondItem="cmK-7c-nK6" secondAttribute="bottom" constant="11" id="H5N-P2-gFI"/>
+                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="top" secondItem="ij0-6K-IHl" secondAttribute="bottom" constant="11" id="46G-kM-M4u"/>
+                            <constraint firstItem="ij0-6K-IHl" firstAttribute="bottom" secondItem="cmK-7c-nK6" secondAttribute="bottom" id="AWi-s9-WZR"/>
                             <constraint firstItem="c63-Ib-Nuw" firstAttribute="centerX" secondItem="DpK-k0-HmU" secondAttribute="centerX" id="b3Q-pu-cAb"/>
+                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="centerX" secondItem="cmK-7c-nK6" secondAttribute="centerX" id="bd6-nb-XGi"/>
+                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="dUN-nx-Jcy"/>
+                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="trailing" secondItem="ij0-6K-IHl" secondAttribute="trailing" id="g1F-2W-34e"/>
+                            <constraint firstAttribute="bottom" secondItem="Kwx-hF-qOt" secondAttribute="bottom" constant="20" symbolic="YES" id="h8h-RT-omg"/>
                             <constraint firstItem="c63-Ib-Nuw" firstAttribute="top" secondItem="DpK-k0-HmU" secondAttribute="bottom" constant="8" symbolic="YES" id="kBx-nc-L7E"/>
                             <constraint firstItem="DpK-k0-HmU" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" symbolic="YES" id="kPl-e2-KhS"/>
-                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="mEM-f3-1LA"/>
+                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="nL2-62-4wR"/>
                             <constraint firstItem="cmK-7c-nK6" firstAttribute="top" secondItem="c63-Ib-Nuw" secondAttribute="bottom" constant="8" symbolic="YES" id="tHP-D1-5H8"/>
-                            <constraint firstItem="Kwx-hF-qOt" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="vOv-A4-HI2"/>
                             <constraint firstItem="cmK-7c-nK6" firstAttribute="centerX" secondItem="c63-Ib-Nuw" secondAttribute="centerX" id="ys9-6D-VFa"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="cmK-7c-nK6" id="NhE-mn-DTo"/>
                         <outlet property="btnScan" destination="c63-Ib-Nuw" id="9L9-XA-Kvn"/>
+                        <outlet property="lblFound" destination="ij0-6K-IHl" id="pS2-8K-rsk"/>
                         <outlet property="lblTitle" destination="DpK-k0-HmU" id="SO8-aG-LeP"/>
                         <outlet property="tableView" destination="Kwx-hF-qOt" id="VaA-0c-eYR"/>
                     </connections>
