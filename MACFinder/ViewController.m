@@ -29,7 +29,7 @@
 @end
 
 @implementation ViewController
-
+bool isPingingHosts;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -83,21 +83,29 @@
                 [self removedDuplicatesFromHostArrays];
                 l(@"hosts: %@", self.hosts);
                 l(@"dead hosts: %@", self.deadHosts);
-                [pinger stop];
+                
                 if ([self.deadHosts count] > 0) {
                     [self pingDeadHosts];
-                    [self.activityIndicator stopAnimating];
-                    self.btnScan.selected = FALSE;
                 }
+                
+                if (isPingingHosts) {
+                    [self.activityIndicator stopAnimating];
+                    self.btnScan.selected = false;
+                    isPingingHosts = false;
+                }
+                
+                [pinger stop];
                 self.lblFound.hidden = false;
                 self.lblFound.text = [NSString stringWithFormat:@"Found %lu devices", (unsigned long)[self.hosts count]];
                 [self.tableView reloadData];
+                
             }];
         }
         else {
             NSLog(@"failed to start");
         }
-    }];}
+    }];
+}
 
 -(void)removedDuplicatesFromHostArrays
 {
@@ -165,7 +173,7 @@
                                {
                                    NSArray *responseDict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
                                    NSDictionary *dict = responseDict[0];
-                                   NSString *vendor = dict[@"company"];
+                                   NSString *vendor =  dict[@"company"] ? dict[@"company"] : @"N/A";
 
                                    completionBlock(YES,vendor);
                                } else{
@@ -176,6 +184,7 @@
 
 -(void)pingDeadHosts
 {
+    isPingingHosts = true;
     [self.deadHosts enumerateObjectsUsingBlock:^(Hosts *obj, NSUInteger idx, BOOL *stop){
  
         GBPing *pinger;
@@ -230,10 +239,6 @@
             if (succeeded) {
                 cell.hostVendor.text = vendor;
                 host.manufacturer =  vendor;
-            }
-            else
-            {
-                cell.hostVendor.text = @"N/A";
             }
             
         }];
