@@ -21,17 +21,15 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnScan;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *lblTitle;
-@property (strong, nonatomic) Hosts *device;
 @property (strong, nonatomic) NSMutableArray *hosts;
 @property (strong, nonatomic) NSMutableArray *deadHosts;
-@property (strong, nonatomic) GBPing *ping;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *lblFound;
 
 @end
 
 @implementation ViewController
-bool isPingingIPs;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
